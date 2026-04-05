@@ -1,0 +1,70 @@
+name: 我的专属轻量去广告
+desc: 极简定制版 - 仅针对常用外卖/出行/社区去广告，超低耗电。
+
+http:
+  rewrite:
+    # 📱 小红书 (开屏与信息流) - 直接阻断，省电
+    - ^https?:\/\/www\.xiaohongshu\.com\/api\/sns\/v\d\/system_service\/splash_config - reject
+    - ^https?:\/\/edith\.xiaohongshu\.com\/api\/sns\/v\d\/user\/teenager\/status - reject
+    - ^https?:\/\/pages\.xiaohongshu\.com\/data\/native\/matrix_switches - reject
+    # 🛒 淘宝 (活动弹窗)
+    - ^https?:\/\/acs\.m\.taobao\.com\/gw\/mtop\.taobao\.idle\.home\.welcome\/ - reject
+    # 🚗 滴滴出行 (开屏)
+    - ^https?:\/\/capis(-?\w*)?\.didapinche\.com\/ad\/cx\/startup\? - reject
+    # 📦 顺丰速运 (开屏)
+    - ^https?:\/\/ccsp-egmas\.sf-express\.com\/cx-app-base\/base\/app\/ad\/ - reject
+
+  script:
+    # 1. 通用开屏去广告 (B站、京东、美团) - 调用 Blackmatrix7 脚本
+    - match: ^https?:\/\/(app\.bilibili\.com\/x\/v2\/splash\/list|api\.m\.jd\.com\/client\.action\?functionId=start|wmapi\.meituan\.com\/api\/v\d+\/loadInfo\?)
+      name: bm7_startup
+      type: response
+      require-body: true
+      timeout: 10
+
+    # 2. 知乎去广告 (高度整合正则，包含开屏、信息流、热榜) - 调用 zheye 脚本
+    - match: ^https?:\/\/api\.zhihu\.com\/(topstory\/hot-lists?|moments\/(recent|tab_v2)|v4\/questions|feed-root\/block|settings\/blocked_users|next-render|people|search\/recommend_query)
+      name: bm7_zheye
+      type: response
+      require-body: true
+      timeout: 10
+
+    # 3. 微信小程序综合去广告 (饮品、出行、外卖、电影) - 调用墨鱼脚本
+    - match: ^https?:\/\/(api\.mcd\.cn|orders\.kfc\.com\.cn|3pp\.starbucks\.com\.cn|go\.heytea\.com|.*\.nayuki\.cn|.*\.luckincoffee\.com|.*\.chagee\.com|api\.hellobike\.com|qapi\.huolala\.cn|wx\.maoyan\.com)\/.*
+      name: moyu_wechat
+      type: response
+      require-body: true
+      timeout: 10
+
+# 精准解密名单 (仅解密列表中的域名，极大节省电量)
+mitm:
+  - "app.bilibili.com"
+  - "api.m.jd.com"
+  - "acs.m.taobao.com"
+  - "wmapi.meituan.com"
+  - "*.xiaohongshu.com"
+  - "api.zhihu.com"
+  - "capis*.didapinche.com"
+  - "ccsp-egmas.sf-express.com"
+  - "api.mcd.cn"
+  - "orders.kfc.com.cn"
+  - "3pp.starbucks.com.cn"
+  - "go.heytea.com"
+  - "*.nayuki.cn"
+  - "*.luckincoffee.com"
+  - "*.chagee.com"
+  - "api.hellobike.com"
+  - "qapi.huolala.cn"
+  - "wx.maoyan.com"
+
+# 远程脚本库定义
+script-providers:
+  bm7_startup:
+    url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/script/startup/startup.js
+    interval: 86400
+  bm7_zheye:
+    url: https://gist.githubusercontent.com/blackmatrix7/f5f780d0f56b319b6ad9848fd080bb18/raw/zheye.min.js
+    interval: 86400
+  moyu_wechat:
+    url: https://raw.githubusercontent.com/ddgksf2013/Scripts/master/wechat_muc.js
+    interval: 86400
