@@ -1,0 +1,39 @@
+name: |-
+  WeChat Cleaner Lite
+desc: |-
+  微信文章净化（保守版）+ 风险链接解除中转页
+icon: |-
+  https://github.com/Toperlock/Quantumult/raw/main/icon/Doraemon/Doraemon-1001.png
+
+http:
+  mitm:
+    - "*.weixin.qq.com"
+    - "weixin110.qq.com"
+    - "security.wechat.com"
+
+  rewrite:
+    # 阅读行为 / 上报 / 监控
+    - ^https?:\/\/.+\.weixin\.qq\.com\/.+report - reject-dict
+    - ^https?:\/\/mp\.weixin\.qq\.com\/mp\/.+monitor\? - reject-dict
+
+    # 相关文章
+    - ^https?:\/\/mp\.weixin\.qq\.com\/mp\/relatedarticle - reject-dict
+
+    # 公众号图文广告（精确）
+    - ^https?:\/\/mp\.weixin\.qq\.com\/mp\/getappmsgad - reject-dict
+
+    # 商品推广 / CPS
+    - ^https?:\/\/.+\.weixin\.qq\.com\/mp\/cps_product_info - reject-dict
+
+  script:
+    - match: ^https:\/\/(weixin110\.qq|security\.wechat)\.com\/cgi-bin\/mmspamsupport-bin\/newredirectconfirmcgi\?
+      name: "weixin110_unblock"
+      type: response
+      require-body: true
+      max-size: -1
+      timeout: 60
+
+script-providers:
+  "weixin110_unblock":
+    url: https://raw.githubusercontent.com/ddgksf2013/Scripts/refs/heads/master/weixin110.js
+    interval: 86400
