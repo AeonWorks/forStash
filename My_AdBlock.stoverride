@@ -38,6 +38,12 @@ http:
       type: response
       require-body: true
       timeout: 10
+    # 4. 闲鱼 (首页信息流去广告) - 调用墨鱼脚本
+    - match: ^https?:\/\/acs\.m\.taobao\.com\/gw\/mtop\.taobao\.idlenew\.app\.index
+      name: moyu_goofish
+      type: response
+      require-body: true
+      timeout: 10
 
 # 精准解密名单 (仅解密列表中的域名，极大节省电量)
 mitm:
@@ -70,4 +76,7 @@ script-providers:
     interval: 86400
   moyu_wechat:
     url: https://raw.githubusercontent.com/ddgksf2013/Scripts/master/wechat_muc.js
+    interval: 86400
+  moyu_goofish:
+    url: https://raw.githubusercontent.com/ddgksf2013/Scripts/master/xianyu_json.js
     interval: 86400
