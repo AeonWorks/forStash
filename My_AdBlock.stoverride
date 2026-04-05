@@ -16,6 +16,11 @@ http:
     # 🗺️ 高德地图 (开屏及推广阻断) - 无需脚本，直接阻断
     - ^https?:\/\/m\d\.amap\.com\/ws\/valueadded\/alimama\/splash_screen\/ - reject
     - ^https?:\/\/optimus-ads\.amap\.com\/uploadimg\/ - reject
+    # 💬 微信/腾讯系外围安全去广告 (拦截广点通联盟与隐私追踪，无解密，极度省电)
+    - ^https?:\/\/(mi\.gdt|gdt|mtrace|btrace|pingma|report)\.qq\.com\/ - reject
+    - ^https?:\/\/pgdt\.gtimg\.cn\/ - reject
+    - ^https?:\/\/wgo\.mmstat\.com\/ - reject
+    - ^https?:\/\/oth(eve)?\.beacon\.qq\.com\/ - reject
 
   script:
     # 1. 通用开屏去广告 (B站、京东、美团) - 调用 Blackmatrix7 脚本
