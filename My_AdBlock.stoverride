@@ -37,15 +37,15 @@ http:
       require-body: true
       timeout: 10
 
-    # 3. 微信小程序综合去广告 (饮品、出行、外卖、电影) - 调用墨鱼脚本
+    # 3. 微信小程序综合去广告 (饮品、出行、外卖、电影) - 调用我自己的脚本
     - match: ^https?:\/\/(api\.mcd\.cn|orders\.kfc\.com\.cn|3pp\.starbucks\.com\.cn|go\.heytea\.com|.*\.nayuki\.cn|.*\.luckincoffee\.com|.*\.chagee\.com|api\.hellobike\.com|qapi\.huolala\.cn|wx\.maoyan\.com)\/.*
-      name: moyu_wechat
+      name: my_wechat
       type: response
       require-body: true
       timeout: 10
-    # 4. 闲鱼 (首页信息流去广告) - 调用墨鱼脚本
+    # 4. 闲鱼 (首页信息流去广告) - 调用我自己的脚本
     - match: ^https?:\/\/acs\.m\.taobao\.com\/gw\/mtop\.taobao\.idlenew\.app\.index
-      name: moyu_goofish
+      name: my_goofish
       type: response
       require-body: true
       timeout: 10
@@ -79,9 +79,9 @@ script-providers:
   bm7_zheye:
     url: https://gist.githubusercontent.com/blackmatrix7/f5f780d0f56b319b6ad9848fd080bb18/raw/zheye.min.js
     interval: 86400
-  moyu_wechat:
-    url: https://raw.githubusercontent.com/ddgksf2013/Scripts/master/wechat_muc.js
+  my_wechat:
+    url: https://gist.githubusercontent.com/AeonWorks/01dd29972ea2165684beb349d281ad92/raw/b1cd1ab2611a2029ccdeb670ee8440b865fc6d5a/gistfile1.txt
     interval: 86400
-  moyu_goofish:
-    url: https://raw.githubusercontent.com/ddgksf2013/Scripts/master/xianyu_json.js
+  my_goofish:
+    url: https://gist.githubusercontent.com/AeonWorks/605b84dff035e1ccfa9f38cd5a18159b/raw/71ee0d93f05095240f54345e482be8198c3f62b1/gistfile1.txt
     interval: 86400
