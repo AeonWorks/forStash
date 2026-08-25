@@ -1,21 +1,39 @@
+#SUBSCRIBED https://raw.githubusercontent.com/AeonWorks/forStash/refs/heads/main/My_AdBlock.stoverride
 name: 我的专属轻量去广告
-desc: 极简定制版 - 仅针对常用外卖/出行/社区去广告，超低耗电。
+desc: 极简定制版 - 仅针对常用外卖/出行/社区去广告，超低耗电。(更新日期: 2026-08-25)
 
 http:
+  mitm:
+    - "app.bilibili.com"
+    - "api.m.jd.com"
+    - "acs.m.taobao.com"
+    - "wmapi.meituan.com"
+    - "*.xiaohongshu.com"
+    - "api.zhihu.com"
+    - "capis*.didapinche.com"
+    - "ccsp-egmas.sf-express.com"
+    - "api.mcd.cn"
+    - "orders.kfc.com.cn"
+    - "3pp.starbucks.com.cn"
+    - "go.heytea.com"
+    - "*.nayuki.cn"
+    - "*.luckincoffee.com"
+    - "*.chagee.com"
+    - "api.hellobike.com"
+    - "qapi.huolala.cn"
+    - "wx.maoyan.com"
+
   rewrite:
-    # 📱 小红书 (开屏与信息流) - 直接阻断，省电
+    # 📱 小红书 (开屏与信息流配置阻断)
     - ^https?:\/\/www\.xiaohongshu\.com\/api\/sns\/v\d\/system_service\/splash_config - reject
     - ^https?:\/\/edith\.xiaohongshu\.com\/api\/sns\/v\d\/user\/teenager\/status - reject
     - ^https?:\/\/pages\.xiaohongshu\.com\/data\/native\/matrix_switches - reject
-    # 🛒 淘宝 (活动弹窗)
+    # 🛒 淘宝 (活动弹窗阻断)
     - ^https?:\/\/acs\.m\.taobao\.com\/gw\/mtop\.taobao\.idle\.home\.welcome\/ - reject
-    # 🚗 滴滴出行 (开屏)
+    # 🚗 嘀嗒/滴滴出行 (开屏广告阻断)
     - ^https?:\/\/capis(-?\w*)?\.didapinche\.com\/ad\/cx\/startup\? - reject
-    # 📦 顺丰速运 (开屏)
+    # 📦 顺丰速运 (开屏广告阻断)
     - ^https?:\/\/ccsp-egmas\.sf-express\.com\/cx-app-base\/base\/app\/ad\/ - reject
-    # 🗺️ 高德地图 (开屏及推广阻断) - 无需脚本，直接阻断
-    - ^https?:\/\/m\d\.amap\.com\/ws\/valueadded\/alimama\/splash_screen\/ - reject
-    - ^https?:\/\/optimus-ads\.amap\.com\/uploadimg\/ - reject
     # 💬 微信/腾讯系外围安全去广告 (拦截广点通联盟与隐私追踪，无解密，极度省电)
     - ^https?:\/\/(mi\.gdt|gdt|mtrace|btrace|pingma|report)\.qq\.com\/ - reject
     - ^https?:\/\/pgdt\.gtimg\.cn\/ - reject
@@ -37,39 +55,19 @@ http:
       require-body: true
       timeout: 10
 
-    # 3. 微信小程序综合去广告 (饮品、出行、外卖、电影) - 调用我自己的脚本
+    # 3. 微信小程序综合去广告 (饮品、出行、外卖、电影) - 调用专属脚本
     - match: ^https?:\/\/(api\.mcd\.cn|orders\.kfc\.com\.cn|3pp\.starbucks\.com\.cn|go\.heytea\.com|.*\.nayuki\.cn|.*\.luckincoffee\.com|.*\.chagee\.com|api\.hellobike\.com|qapi\.huolala\.cn|wx\.maoyan\.com)\/.*
       name: my_wechat
       type: response
       require-body: true
       timeout: 10
-    # 4. 闲鱼 (首页信息流去广告) - 调用我自己的脚本
+
+    # 4. 闲鱼 (首页信息流去广告) - 调用专属脚本
     - match: ^https?:\/\/acs\.m\.taobao\.com\/gw\/mtop\.taobao\.idlenew\.app\.index
       name: my_goofish
       type: response
       require-body: true
       timeout: 10
-
-# 精准解密名单 (仅解密列表中的域名，极大节省电量)
-mitm:
-  - "app.bilibili.com"
-  - "api.m.jd.com"
-  - "acs.m.taobao.com"
-  - "wmapi.meituan.com"
-  - "*.xiaohongshu.com"
-  - "api.zhihu.com"
-  - "capis*.didapinche.com"
-  - "ccsp-egmas.sf-express.com"
-  - "api.mcd.cn"
-  - "orders.kfc.com.cn"
-  - "3pp.starbucks.com.cn"
-  - "go.heytea.com"
-  - "*.nayuki.cn"
-  - "*.luckincoffee.com"
-  - "*.chagee.com"
-  - "api.hellobike.com"
-  - "qapi.huolala.cn"
-  - "wx.maoyan.com"
 
 # 远程脚本库定义
 script-providers:
