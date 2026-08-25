@@ -1,6 +1,6 @@
 #SUBSCRIBED https://raw.githubusercontent.com/AeonWorks/forStash/refs/heads/main/My_AdBlock.stoverride
-name: 我的专属轻量去广告
-desc: 极简定制版 - 仅针对常用外卖/出行/社区去广告，超低耗电。(更新日期: 2026-08-25)
+name: "我的专属轻量去广告"
+desc: "极简定制版 - 仅针对常用外卖/出行/社区去广告，超低耗电。(更新日期: 2026-08-25)"
 
 http:
   mitm:
