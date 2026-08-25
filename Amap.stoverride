@@ -1,6 +1,6 @@
 #SUBSCRIBED https://raw.githubusercontent.com/ddgksf2013/Rewrite/master/AdBlock/AmapAds.conf
-name: 高德地图去广告
-desc: 高德地图净化[墨鱼版] 适配 Stash (创建日期: 2026-08-25, 上游版本: V1.0.28)
+name: "高德地图去广告"
+desc: "高德地图净化[墨鱼版] 适配 Stash (创建日期: 2026-08-25, 上游版本: V1.0.28)"
 
 http:
   mitm:
