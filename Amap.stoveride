@@ -1,0 +1,54 @@
+#SUBSCRIBED https://raw.githubusercontent.com/ddgksf2013/Rewrite/master/AdBlock/AmapAds.conf
+name: 高德地图去广告
+desc: 高德地图净化[墨鱼版] 适配 Stash (创建日期: 2026-08-25, 上游版本: V1.0.28)
+
+http:
+  mitm:
+    # 仅解密墨鱼指定的 5 个高德核心业务子域名 + AMDC 调度，不解密地图瓦片大流量
+    - "m5.amap.com"
+    - "m5-zb.amap.com"
+    - "center.amap.com"
+    - "amap-aos-info-nogw.amap.com"
+    - "ai.amap.com"
+    - "amdc.m.taobao.com"
+
+  rewrite:
+    # 1. 开屏请求直接返回 200 空包阻断
+    - ^https?:\/\/.*\.amap\.com\/ws\/aos\/alimama\/splash_screen - reject-200
+    # 2. 首页底部信息流
+    - ^https?:\/\/.*\.amap\.com\/v\d\/ai_rec\/ - reject-dict
+    # 3. 路线规划下方推广卡片
+    - ^https?:\/\/.*\.amap\.com\/ws\/faas\/amap-navigation\/card-service-route-plan\? - reject-dict
+    # 4. Tip 订单信息推广
+    - ^https?:\/\/.*\.amap\.com\/ws\/boss\/order_web\/\w{8}_information - reject-200
+    # 5. 通用广告归因上报阻断
+    - ^https?:\/\/.*\.amap\.com\/ws\/asa\/ads_attribution - reject
+    # 6. 搜索框推荐场景
+    - ^https?:\/\/.*\.amap\.com\/ws\/shield\/scene\/recommend - reject-dict
+    # 7. 首页左上角动图
+    - ^https?:\/\/.*\.amap\.com\/uploadimg\/\w+\.gif - reject-img
+    # 8. 左下角天气推广
+    - ^https?:\/\/.*\.amap\.com\/ws\/valueadded\/weather - reject-dict
+
+  script:
+    # 高德地图核心动态数据净化（开屏广告、首页推广、打车横幅、我的页面卡片、搜索热词、角标）
+    - match: ^https?:\/\/.*\.amap\.com\/ws\/(message\/notice\/list|shield\/frogserver\/aocs\/updatable|shield\/search\/nearbyrec_smart|promotion-web\/resource|faas\/amap-navigation\/main-page|valueadded\/alimama\/splash_screen|msgbox\/pull|shield\/dsp\/profile\/index\/nodefaas|shield\/search\/new_hotword)
+      name: amap_clean
+      type: response
+      require-body: true
+      timeout: 10
+
+    # 淘宝/高德 AMDC 调度处理
+    - match: ^http:\/\/amdc\.m\.taobao\.com
+      name: amdc_clean
+      type: response
+      require-body: true
+      timeout: 10
+
+script-providers:
+  amap_clean:
+    url: https://raw.githubusercontent.com/ddgksf2013/Scripts/master/amap.js
+    interval: 86400
+  amdc_clean:
+    url: https://raw.githubusercontent.com/ddgksf2013/Scripts/master/amdc.js
+    interval: 86400
